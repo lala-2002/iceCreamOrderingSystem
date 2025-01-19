@@ -73,12 +73,12 @@ public class HomePage {
         orderButton.setBackground(Color.decode("#F2E7DD")); // Button background color (light beige)
         orderButton.setForeground(Color.BLACK); // Button text color
 
-        aboutButton.addActionListener(e -> {
+        aboutButton.addActionListener(actionEvent -> {
             frame.dispose();
             new AboutPage();
         });
 
-        orderButton.addActionListener(e -> {
+        orderButton.addActionListener(actionEvent -> {
             frame.dispose();
             new OrderForm();
         });

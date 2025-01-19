@@ -143,20 +143,24 @@ public class OrderForm {
                 return;
             }
 
-            // Calculate the total price
             Flavor selectedFlavor = (Flavor) flavorBox.getSelectedItem();
-            double total = selectedFlavor.getPrice() * quantity;
 
-            // Add the prices of selected toppings
-            for (Topping topping : selectedToppings) {
+            double total = selectedFlavor.getPrice() * quantity;
+            ArrayList<Topping> toppingsForOrder = new ArrayList<>(selectedToppings);
+
+            for (Topping topping : toppingsForOrder) {
                 total += topping.getPrice() * quantity;
             }
 
-            // Create a new simplified OrderItem and add it to the orders list
-            OrderItem orderItem = new OrderItem(total);
+            OrderItem orderItem = new OrderItem(
+                    customerName,
+                    selectedFlavor,
+                    toppingsForOrder,
+                    total,
+                    quantity
+            );
             orders.add(orderItem);
 
-            // Update the total order price
             totalOrderPrice += total;
             updateOrderSummary();
             resetForm();
@@ -164,6 +168,7 @@ public class OrderForm {
             JOptionPane.showMessageDialog(frame, "An error occurred while adding the order.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void resetForm() {
         // Reset form inputs except the customer name
@@ -204,39 +209,85 @@ public class OrderForm {
     private void finalizeOrder() {
         if (orders.isEmpty()) {
             JOptionPane.showMessageDialog(frame,
-                    "<html><body>No items in the order. Add at least one flavor.</body></html>",
+                    "<html><body>No items in order. Add at least one flavor.</body></html>",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Build and display receipt
-        StringBuilder receipt = new StringBuilder("Receipt:\n\n");
-        int counter = 1;
-        for (OrderItem order : orders) {
-            receipt.append("Order ").append(counter).append(": RM")
-                    .append(String.format("%.2f", order.getTotal())).append("\n");
-            counter++;
+        // Get the first order's details (for simplicity, assuming one order at a time)
+        OrderItem firstOrder = orders.get(0);
+
+        String name = customerName;
+        String flavor = firstOrder.getFlavor().getName();
+        int quantity = firstOrder.getQuantity();
+        boolean hasSprinkles = false;
+        boolean hasChocolate = false;
+
+        for (Topping topping : firstOrder.getToppings()) {
+            if (topping.getName().equalsIgnoreCase("Sprinkles")) {
+                hasSprinkles = true;
+            } else if (topping.getName().equalsIgnoreCase("Chocolate Sauce")) {
+                hasChocolate = true;
+            }
         }
-        receipt.append(String.format("\nTotal Price: RM%.2f", totalOrderPrice));
 
-        // Show receipt dialog
-        JOptionPane.showMessageDialog(frame, receipt.toString(), "Receipt", JOptionPane.INFORMATION_MESSAGE);
+        // Create and display the receipt
+        new Receipt(name, flavor, quantity, hasSprinkles, hasChocolate);
 
-        // Exit the program after receipt
-        System.exit(0);
+        // Clear the order after displaying the receipt
+        resetAll();
     }
 
-    // Inner class for a simplified OrderItem
-    public static class OrderItem {
-        private final double total;
 
-        public OrderItem(double total) {
-            this.total = total; // Ensure the total is set during construction
+    // Inner class for OrderItem
+    public static class OrderItem {
+        private final String name;
+        private final Flavor flavor;
+        private final ArrayList<Topping> toppings;
+        private final double total;
+        private final int quantity;
+
+        public OrderItem(String name, Flavor flavor, ArrayList<Topping> toppings, double total, int quantity) {
+            this.name = name;
+            this.flavor = flavor;
+            this.toppings = toppings;
+            this.total = total;
+            this.quantity = quantity;
+        }
+
+        // Getter for flavor
+        public Flavor getFlavor() {
+            return flavor;
+        }
+
+        // Getter for quantity
+        public int getQuantity() {
+            return quantity;
+        }
+
+        // Getter for toppings
+        public ArrayList<Topping> getToppings() {
+            return toppings;
         }
 
         // Getter for total
         public double getTotal() {
             return total;
         }
+
+        @Override
+        public String toString() {
+            StringBuilder toppingsText = new StringBuilder();
+            for (Topping topping : toppings) {
+                toppingsText.append(topping.getName()).append(", ");
+            }
+            if (toppingsText.length() > 0) {
+                toppingsText.setLength(toppingsText.length() - 2);
+            } else {
+                toppingsText.append("No toppings");
+            }
+            return String.format("%d x %s with %s = RM%.2f", quantity, flavor.getName(), toppingsText, total);
+        }
     }
+
 }

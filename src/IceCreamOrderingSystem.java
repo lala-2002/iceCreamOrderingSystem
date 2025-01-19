@@ -3,4 +3,3 @@ public class IceCreamOrderingSystem {
         new HomePage(); // Start the application from the HomePage
     }
 }
-
