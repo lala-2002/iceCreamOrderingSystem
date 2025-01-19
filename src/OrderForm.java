@@ -16,18 +16,39 @@ public class OrderForm {
     // Global variable to store the customer's name
     private String customerName = null;
 
+    private JPanel createFormPanelWithBackground() {
+        JPanel formPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Load and scale the background image
+                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg"); // Correct the path to the image
+                Image img = backgroundImage.getImage();
+                Image scaledImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH); // Scale the image to fit the panel size
+                g.drawImage(scaledImg, 0, 0, this); // Draw the image on the panel
+            }
+        };
+        formPanel.setLayout(new BorderLayout()); // Layout for the form
+        return formPanel;
+    }
+
+
     public OrderForm() {
         frame = new JFrame("Ice Cream Order Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+
         // Sample flavors and toppings
         Flavor[] flavors = {
-                new Flavor("Vanilla", 5.00),
-                new Flavor("Chocolate", 5.00),
-                new Flavor("Strawberry", 5.00),
-                new Flavor("Mint", 5.00)
+                new Flavor("Vanilla", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\vanilla (2).jpg"),
+                new Flavor("Chocolate", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\chocolate (2).jpg"),
+                new Flavor("Strawberry", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\strawberry (2).jpg"),
+                new Flavor("Mint", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\mint (2).jpg")
         };
+
 
         Topping[] toppings = {
                 new Topping("Sprinkles", 1.00),
@@ -39,39 +60,117 @@ public class OrderForm {
         selectedToppings = new ArrayList<>();
         orders = new ArrayList<>();
 
+        // Custom panel for background
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Load and draw the background image
+                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg"); // Correct the path
+                Image img = backgroundImage.getImage();
+                Image scaledImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH); // Scale image to fit
+                g.drawImage(scaledImg, 0, 0, this); // Draw scaled image
+            }
+        };
+
+        backgroundPanel.setLayout(new BorderLayout()); // Set layout to BorderLayout
+        // Panels
         JPanel inputPanel = createInputForm(flavors, toppings);
         JPanel summaryPanel = createSummaryPanel();
         JPanel actionPanel = createActionButtons();
 
-        frame.add(inputPanel, BorderLayout.CENTER);
-        frame.add(summaryPanel, BorderLayout.EAST);
-        frame.add(actionPanel, BorderLayout.SOUTH);
+        // Add components to the background panel
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.add(inputPanel, BorderLayout.CENTER);
+        backgroundPanel.add(summaryPanel, BorderLayout.EAST);
+        backgroundPanel.add(actionPanel, BorderLayout.SOUTH);
 
+        frame.setContentPane(backgroundPanel);
         frame.pack();
         frame.setVisible(true);
     }
+
+    // Custom JPanel to display a background image
+    private class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel() {
+            // Load the background image
+            backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg").getImage();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Draw the background image, scaled to fit the panel
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+    // Method to set up the JComboBox with icons
+    private void setupFlavorComboBox(JComboBox<Flavor> flavorBox) {
+        flavorBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Stack components vertically
+                panel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the content horizontally
+
+                if (value instanceof Flavor) {
+                    Flavor flavor = (Flavor) value;
+
+                    // Flavor name label
+                    JLabel label = new JLabel(flavor.getName());
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    label.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the name text
+
+                    // Load and scale the image
+                    ImageIcon icon = new ImageIcon(flavor.getIconPath());
+                    Image scaledImage = icon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                    JLabel iconLabel = new JLabel(new ImageIcon(scaledImage));
+                    iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the icon
+
+                    // Add the icon and name to the panel
+                    panel.add(iconLabel);
+                    panel.add(label);
+                }
+
+                // Return the panel containing both icon and name
+                return panel;
+            }
+        });
+    }
+
 
     private JPanel createInputForm(Flavor[] flavors, Topping[] toppings) {
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
         inputPanel.add(new JLabel("Name:"));
         nameField = new JTextField();
+        nameField.setPreferredSize(new Dimension(150, 25)); // Set smaller size for name field
         inputPanel.add(nameField);
 
         inputPanel.add(new JLabel("Flavor:"));
         flavorBox = new JComboBox<>(flavors);
+        flavorBox.setPreferredSize(new Dimension(150, 25)); // Set smaller size for combo box
+        flavorBox.setBackground(Color.decode("#FFFFFF")); // Set the background color to white using hex
+        flavorBox.setForeground(Color.decode("#000000")); // Set the text color to black using hex
+        setupFlavorComboBox(flavorBox); // Call the setup method here
         inputPanel.add(flavorBox);
 
         inputPanel.add(new JLabel("Quantity:"));
         quantityField = new JTextField();
+        quantityField.setPreferredSize(new Dimension(150, 25)); // Set smaller size for quantity field
         inputPanel.add(quantityField);
 
         inputPanel.add(new JLabel("Toppings:"));
         toppingPanel = new JPanel(new GridLayout(0, 1));
+        toppingPanel.setBackground(Color.decode("#FFFFFF")); // Set the background color of the topping panel to white
         JScrollPane scrollPane = new JScrollPane(toppingPanel);
 
         for (Topping topping : toppings) {
             JCheckBox toppingCheckBox = new JCheckBox(topping.getName() + " (RM" + topping.getPrice() + ")");
+            toppingCheckBox.setBackground(Color.decode("#FFFFFF")); // Set the background color of each topping checkbox to white
+            toppingCheckBox.setForeground(Color.decode("#000000")); // Set the text color of the checkbox to black
             toppingCheckBox.addActionListener(e -> {
                 if (toppingCheckBox.isSelected()) {
                     selectedToppings.add(topping);
@@ -85,6 +184,8 @@ public class OrderForm {
 
         return inputPanel;
     }
+
+
 
     private JPanel createSummaryPanel() {
         JPanel summaryPanel = new JPanel(new BorderLayout());
@@ -106,19 +207,26 @@ public class OrderForm {
         JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 10));
 
         JButton addFlavorButton = new JButton("Add Flavor");
+        addFlavorButton.setBackground(Color.decode("#59282B"));  // Cyan (#00FFFF)
+        addFlavorButton.setForeground(Color.decode("#FFFFFF"));  // Black (#000000)
         addFlavorButton.addActionListener(e -> addFlavor());
         actionPanel.add(addFlavorButton);
 
         JButton resetButton = new JButton("Reset");
+        resetButton.setBackground(Color.decode("#59282B"));  // Orange (#FFA500)
+        resetButton.setForeground(Color.decode("#FFFFFF"));  // Black (#000000)
         resetButton.addActionListener(e -> resetAll());
         actionPanel.add(resetButton);
 
         JButton submitButton = new JButton("Submit");
+        submitButton.setBackground(Color.decode("#59282B"));  // Green (#008000)
+        submitButton.setForeground(Color.decode("#FFFFFF"));  // White (#FFFFFF)
         submitButton.addActionListener(e -> finalizeOrder());
         actionPanel.add(submitButton);
 
         return actionPanel;
     }
+
 
     private void addFlavor() {
         try {

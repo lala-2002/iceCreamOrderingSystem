@@ -1,25 +1,23 @@
 public class Flavor {
-    private final String name;
-    private final double price;
+    private String name;
+    private double price;
+    private String iconPath;
 
-    public Flavor(String name, double price) {
+    public Flavor(String name, double price, String iconPath) {
         this.name = name;
         this.price = price;
+        this.iconPath = iconPath;
     }
 
-    // Getter for the flavor name
     public String getName() {
         return name;
     }
 
-    // Getter for the price
     public double getPrice() {
         return price;
     }
 
-    // Display the flavor as a string (useful for combo box)
-    @Override
-    public String toString() {
-        return String.format("%s (RM%.2f)", name, price);
+    public String getIconPath() {
+        return iconPath;
     }
 }
