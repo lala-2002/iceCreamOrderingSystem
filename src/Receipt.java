@@ -1,35 +1,48 @@
+import java.util.ArrayList;
 import javax.swing.*;
-import java.awt.*;
 
 public class Receipt {
-    JFrame frame;
+    private final ArrayList<OrderForm.OrderItem> orders; // List of order items
+    private final String customerName; // Customer's name
 
-    Receipt(String name, String flavor, int quantity, boolean sprinkles, boolean chocolate) {
-        frame = new JFrame("Receipt");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(6, 1));
+    // Constructor to initialize the orders and customer name
+    public Receipt(ArrayList<OrderForm.OrderItem> orders, String customerName) {
+        this.orders = orders;
+        this.customerName = customerName;
+    }
 
-        frame.add(new JLabel("Thank you for your order, " + name + "!"));
-        frame.add(new JLabel("Flavor: " + flavor));
-        frame.add(new JLabel("Quantity: " + quantity));
+    // Method to calculate total order price
+    private double calculateTotalPrice() {
+        return orders.stream()
+                .mapToDouble(order -> order.getTotal())
+                .sum();
+    }
 
-        String toppings = "Toppings: ";
-        if (sprinkles) toppings += "Sprinkles ";
-        if (chocolate) toppings += "Chocolate Sauce ";
-        if (!sprinkles && !chocolate) toppings += "None";
-        frame.add(new JLabel(toppings));
+    // Method to generate and display the receipt
+    public void displayReceipt() {
+        if (orders.isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "No items in the order. Please add at least one flavor.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        double price = 5.00;
-        if (sprinkles) price += 1.00;
-        if (chocolate) price += 1.50;
-        double total = price * quantity;
-        frame.add(new JLabel(String.format("Total Price: RM%.2f", total)));
+        // Generate the receipt using HTML formatting
+        StringBuilder receipt = new StringBuilder("<html><body>");
+        receipt.append("<h1 style=\"font-family:'Comic Sans MS';\">Ice Cream Paradise</h1><br/>");
+        receipt.append("<h3>Receipt</h3><br/>");
+        receipt.append("Customer: ").append(customerName).append("<br/><br/>");
 
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(e -> frame.dispose());
-        frame.add(closeButton);
+        for (OrderForm.OrderItem order : orders) {
+            receipt.append(order).append("<br/>");
+        }
 
-        frame.setVisible(true);
+        receipt.append(String.format("Grand Total: RM%.2f", calculateTotalPrice()));
+        receipt.append("<br/><br/>Thank you for your order, ").append(customerName).append("!");
+        receipt.append("</body></html>");
+
+        // Display the receipt
+        JOptionPane.showMessageDialog(null, receipt.toString(),
+                "Order Receipt", JOptionPane.INFORMATION_MESSAGE);
     }
 }
