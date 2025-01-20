@@ -4,8 +4,6 @@ import java.awt.*;
 public class Receipt {
     JFrame frame;
 
-
-
     Receipt(String name, String flavor, int quantity, boolean sprinkles, boolean chocolate) {
         frame = new JFrame("Receipt");
         frame.setSize(500, 350);

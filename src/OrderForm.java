@@ -32,14 +32,12 @@ public class OrderForm {
         return formPanel;
     }
 
-
     public OrderForm() {
         frame = new JFrame("Ice Cream Order Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Set the frame size to 300x300
-        frame.setSize(400, 300);
-
+        // Set the frame size to 400x450
+        frame.setSize(550, 500);
 
         // Sample flavors and toppings
         Flavor[] flavors = {
@@ -144,23 +142,28 @@ public class OrderForm {
     private JPanel createInputForm(Flavor[] flavors, Topping[] toppings) {
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
-        inputPanel.add(new JLabel("Name:"));
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(5, 5)); // Set smaller size for name field
-        inputPanel.add(nameField);
+        nameField.setPreferredSize(new Dimension(200, 30)); // Adjust size
+        namePanel.add(nameField);
+        inputPanel.add(new JLabel("Name:"));
+        inputPanel.add(namePanel);
+
 
         inputPanel.add(new JLabel("Flavor:"));
         flavorBox = new JComboBox<>(flavors);
-        flavorBox.setPreferredSize(new Dimension(150, 25)); // Set smaller size for combo box
+        flavorBox.setPreferredSize(new Dimension(120, 20)); // Reduced size of the combo box
         flavorBox.setBackground(Color.decode("#FFFFFF")); // Set the background color to white using hex
         flavorBox.setForeground(Color.decode("#000000")); // Set the text color to black using hex
         setupFlavorComboBox(flavorBox); // Call the setup method here
         inputPanel.add(flavorBox);
 
-        inputPanel.add(new JLabel("Quantity:"));
+        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         quantityField = new JTextField();
-        quantityField.setPreferredSize(new Dimension(5, 5)); // Set smaller size for quantity field
-        inputPanel.add(quantityField);
+        quantityField.setPreferredSize(new Dimension(200, 30)); // Adjust size
+        quantityPanel.add(quantityField);
+        inputPanel.add(new JLabel("Quantity:"));
+        inputPanel.add(quantityPanel);
 
         inputPanel.add(new JLabel("Toppings:"));
         toppingPanel = new JPanel(new GridLayout(0, 1));
