@@ -141,8 +141,9 @@ public class OrderForm {
 
     private JPanel createInputForm(Flavor[] flavors, Topping[] toppings) {
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margins
 
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
         nameField = new JTextField();
         nameField.setPreferredSize(new Dimension(200, 30)); // Adjust size
         namePanel.add(nameField);
@@ -191,9 +192,9 @@ public class OrderForm {
     private JPanel createSummaryPanel() {
         JPanel wrapperPanel = new JPanel(); // Intermediate wrapper panel
         wrapperPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5)); // Use FlowLayout
-        wrapperPanel.setPreferredSize(new Dimension(150, 450)); // Force fixed size
-        wrapperPanel.setMinimumSize(new Dimension(150, 450));
-        wrapperPanel.setMaximumSize(new Dimension(150, 450));
+        wrapperPanel.setPreferredSize(new Dimension(200, 450)); // Force fixed size
+        wrapperPanel.setMinimumSize(new Dimension(200, 450));
+        wrapperPanel.setMaximumSize(new Dimension(200, 450));
 
         JPanel summaryPanel = new JPanel(new BorderLayout());
         summaryPanel.setBorder(BorderFactory.createTitledBorder("Order Summary"));
@@ -204,7 +205,7 @@ public class OrderForm {
 
         // Scroll Pane
         JScrollPane scrollPane = new JScrollPane(orderSummary);
-        scrollPane.setPreferredSize(new Dimension(150, 400));
+        scrollPane.setPreferredSize(new Dimension(200, 400));
 
         // Total Label
         totalLabel = new JLabel("Total: RM0.00");
