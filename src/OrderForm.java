@@ -36,10 +36,10 @@ public class OrderForm {
     public OrderForm() {
         frame = new JFrame("Ice Cream Order Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
 
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
+        // Set the frame size to 300x300
+        frame.setSize(400, 300);
+
 
         // Sample flavors and toppings
         Flavor[] flavors = {
@@ -146,7 +146,7 @@ public class OrderForm {
 
         inputPanel.add(new JLabel("Name:"));
         nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(150, 25)); // Set smaller size for name field
+        nameField.setPreferredSize(new Dimension(5, 5)); // Set smaller size for name field
         inputPanel.add(nameField);
 
         inputPanel.add(new JLabel("Flavor:"));
@@ -159,7 +159,7 @@ public class OrderForm {
 
         inputPanel.add(new JLabel("Quantity:"));
         quantityField = new JTextField();
-        quantityField.setPreferredSize(new Dimension(150, 25)); // Set smaller size for quantity field
+        quantityField.setPreferredSize(new Dimension(5, 5)); // Set smaller size for quantity field
         inputPanel.add(quantityField);
 
         inputPanel.add(new JLabel("Toppings:"));
@@ -185,22 +185,37 @@ public class OrderForm {
         return inputPanel;
     }
 
-
-
     private JPanel createSummaryPanel() {
+        JPanel wrapperPanel = new JPanel(); // Intermediate wrapper panel
+        wrapperPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5)); // Use FlowLayout
+        wrapperPanel.setPreferredSize(new Dimension(150, 450)); // Force fixed size
+        wrapperPanel.setMinimumSize(new Dimension(150, 450));
+        wrapperPanel.setMaximumSize(new Dimension(150, 450));
+
         JPanel summaryPanel = new JPanel(new BorderLayout());
         summaryPanel.setBorder(BorderFactory.createTitledBorder("Order Summary"));
 
-        orderSummary = new JTextArea(10, 30);
+        // Text area
+        orderSummary = new JTextArea();
         orderSummary.setEditable(false);
+
+        // Scroll Pane
         JScrollPane scrollPane = new JScrollPane(orderSummary);
+        scrollPane.setPreferredSize(new Dimension(150, 400));
 
+        // Total Label
         totalLabel = new JLabel("Total: RM0.00");
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        // Add components to summaryPanel
         summaryPanel.add(scrollPane, BorderLayout.CENTER);
         summaryPanel.add(totalLabel, BorderLayout.SOUTH);
 
-        return summaryPanel;
+        // Add the summaryPanel to the wrapper panel
+        wrapperPanel.add(summaryPanel);
+
+        return wrapperPanel;
     }
 
     private JPanel createActionButtons() {
