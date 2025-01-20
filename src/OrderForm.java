@@ -37,7 +37,7 @@ public class OrderForm {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the frame size to 400x450
-        frame.setSize(550, 500);
+        frame.setSize(550, 400);
 
         // Sample flavors and toppings
         Flavor[] flavors = {
@@ -138,43 +138,76 @@ public class OrderForm {
         });
     }
 
-
     private JPanel createInputForm(Flavor[] flavors, Topping[] toppings) {
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        // Create the main input panel with BoxLayout for vertical alignment
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margins
 
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // Add spacing helper constants
+        final int SECTION_GAP = 20;      // Space between unrelated sections
+        final int LABEL_TO_FIELD_GAP = 5; // Space between label and input field
+        final int SMALLER_LABEL_GAP = 10; // Custom gap between labels and unrelated input boxes
+
+        // Name Field
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the label
         nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(200, 30)); // Adjust size
-        namePanel.add(nameField);
-        inputPanel.add(new JLabel("Name:"));
-        inputPanel.add(namePanel);
+        nameField.setPreferredSize(new Dimension(200, 30));
+        nameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // Ensure the field stretches if needed
+        nameField.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the field
 
+        // Add Name Components (Label + Field)
+        inputPanel.add(nameLabel);
+        inputPanel.add(Box.createVerticalStrut(LABEL_TO_FIELD_GAP)); // Space between label and field (5px)
+        inputPanel.add(nameField);
+        inputPanel.add(Box.createVerticalStrut(SMALLER_LABEL_GAP)); // Gap before Flavor label
 
-        inputPanel.add(new JLabel("Flavor:"));
+        // Flavor Field
+        JLabel flavorLabel = new JLabel("Flavor:");
+        flavorLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the label
         flavorBox = new JComboBox<>(flavors);
-        flavorBox.setPreferredSize(new Dimension(120, 20)); // Reduced size of the combo box
-        flavorBox.setBackground(Color.decode("#FFFFFF")); // Set the background color to white using hex
-        flavorBox.setForeground(Color.decode("#000000")); // Set the text color to black using hex
-        setupFlavorComboBox(flavorBox); // Call the setup method here
+        flavorBox.setPreferredSize(new Dimension(200, 100)); // Custom height and width
+        flavorBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100)); // Allow stretching
+        flavorBox.setBackground(Color.decode("#FFFFFF")); // Set white background
+        flavorBox.setForeground(Color.decode("#000000")); // Set text color to black
+        flavorBox.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the combo box
+        setupFlavorComboBox(flavorBox); // Call setup method for flavorBox
+
+        // Add Flavor Components (Label + ComboBox)
+        inputPanel.add(flavorLabel);
+        inputPanel.add(Box.createVerticalStrut(LABEL_TO_FIELD_GAP)); // Space between label and combo box (5px)
         inputPanel.add(flavorBox);
+        inputPanel.add(Box.createVerticalStrut(SMALLER_LABEL_GAP)); // Gap before Quantity label
 
-        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Quantity Field
+        JLabel quantityLabel = new JLabel("Quantity:");
+        quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the label
         quantityField = new JTextField();
-        quantityField.setPreferredSize(new Dimension(200, 30)); // Adjust size
-        quantityPanel.add(quantityField);
-        inputPanel.add(new JLabel("Quantity:"));
-        inputPanel.add(quantityPanel);
+        quantityField.setPreferredSize(new Dimension(200, 30));
+        quantityField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        quantityField.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the field
 
-        inputPanel.add(new JLabel("Toppings:"));
-        toppingPanel = new JPanel(new GridLayout(0, 1));
-        toppingPanel.setBackground(Color.decode("#FFFFFF")); // Set the background color of the topping panel to white
+        // Add Quantity Components (Label + Field)
+        inputPanel.add(quantityLabel);
+        inputPanel.add(Box.createVerticalStrut(LABEL_TO_FIELD_GAP)); // Space between label and field (5px)
+        inputPanel.add(quantityField);
+        inputPanel.add(Box.createVerticalStrut(SMALLER_LABEL_GAP)); // Gap before Toppings label
+
+        // Toppings Section
+        JLabel toppingLabel = new JLabel("Toppings:");
+        toppingLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the label
+        toppingPanel = new JPanel(new GridLayout(0, 1)); // One column layout
+        toppingPanel.setBackground(Color.decode("#FFFFFF")); // Set white background
         JScrollPane scrollPane = new JScrollPane(toppingPanel);
+        scrollPane.setPreferredSize(new Dimension(250, 100)); // Adjust scrollable height
+        scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the scroll pane
 
+        // Populate topping checkboxes
         for (Topping topping : toppings) {
             JCheckBox toppingCheckBox = new JCheckBox(topping.getName() + " (RM" + topping.getPrice() + ")");
-            toppingCheckBox.setBackground(Color.decode("#FFFFFF")); // Set the background color of each topping checkbox to white
-            toppingCheckBox.setForeground(Color.decode("#000000")); // Set the text color of the checkbox to black
+            toppingCheckBox.setBackground(Color.decode("#FFFFFF")); // White background for checkboxes
+            toppingCheckBox.setForeground(Color.decode("#000000")); // Black text for checkboxes
             toppingCheckBox.addActionListener(e -> {
                 if (toppingCheckBox.isSelected()) {
                     selectedToppings.add(topping);
@@ -184,6 +217,10 @@ public class OrderForm {
             });
             toppingPanel.add(toppingCheckBox);
         }
+
+        // Add Topping Components (Label + ScrollPane)
+        inputPanel.add(toppingLabel);
+        inputPanel.add(Box.createVerticalStrut(LABEL_TO_FIELD_GAP)); // Space between label and scroll pane (5px)
         inputPanel.add(scrollPane);
 
         return inputPanel;
