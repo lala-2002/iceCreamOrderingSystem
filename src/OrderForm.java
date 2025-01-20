@@ -143,7 +143,7 @@ public class OrderForm {
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margins
 
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         nameField = new JTextField();
         nameField.setPreferredSize(new Dimension(200, 30)); // Adjust size
         namePanel.add(nameField);
@@ -190,13 +190,14 @@ public class OrderForm {
     }
 
     private JPanel createSummaryPanel() {
-        JPanel wrapperPanel = new JPanel(); // Intermediate wrapper panel
-        wrapperPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5)); // Use FlowLayout
-        wrapperPanel.setPreferredSize(new Dimension(200, 450)); // Force fixed size
-        wrapperPanel.setMinimumSize(new Dimension(200, 450));
-        wrapperPanel.setMaximumSize(new Dimension(200, 450));
+        // Create a wrapper panel for layout
+        JPanel wrapperPanel = new JPanel();
+        wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS));
+        wrapperPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add spacing
 
-        JPanel summaryPanel = new JPanel(new BorderLayout());
+        // Main summary panel
+        JPanel summaryPanel = new JPanel();
+        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
         summaryPanel.setBorder(BorderFactory.createTitledBorder("Order Summary"));
 
         // Text area
@@ -205,39 +206,48 @@ public class OrderForm {
 
         // Scroll Pane
         JScrollPane scrollPane = new JScrollPane(orderSummary);
-        scrollPane.setPreferredSize(new Dimension(200, 400));
+        // Use setPreferredSize to control the height explicitly
+        scrollPane.setMaximumSize(new Dimension(300, 410));  // Adjust height as needed (e.g., 100 pixels)
+        scrollPane.setPreferredSize(new Dimension(300, 410));
 
         // Total Label
         totalLabel = new JLabel("Total: RM0.00");
         totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
         totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Add components to summaryPanel
-        summaryPanel.add(scrollPane, BorderLayout.CENTER);
-        summaryPanel.add(totalLabel, BorderLayout.SOUTH);
+        summaryPanel.add(scrollPane); // Add the scrollPane with a controlled height
+        summaryPanel.add(Box.createVerticalStrut(10)); // Add spacing between components
+        summaryPanel.add(totalLabel);
 
-        // Add the summaryPanel to the wrapper panel
+        // Add summaryPanel to wrapperPanel
         wrapperPanel.add(summaryPanel);
 
         return wrapperPanel;
     }
 
+
+
     private JPanel createActionButtons() {
         JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 10));
 
         JButton addFlavorButton = new JButton("Add Flavor");
+        addFlavorButton.setPreferredSize(new Dimension(50, 30)); // Set button size (width, height)
         addFlavorButton.setBackground(Color.decode("#59282B"));  // Cyan (#00FFFF)
         addFlavorButton.setForeground(Color.decode("#FFFFFF"));  // Black (#000000)
         addFlavorButton.addActionListener(e -> addFlavor());
         actionPanel.add(addFlavorButton);
 
         JButton resetButton = new JButton("Reset");
+        resetButton.setPreferredSize(new Dimension(50, 30));
         resetButton.setBackground(Color.decode("#59282B"));  // Orange (#FFA500)
         resetButton.setForeground(Color.decode("#FFFFFF"));  // Black (#000000)
         resetButton.addActionListener(e -> resetAll());
         actionPanel.add(resetButton);
 
         JButton submitButton = new JButton("Submit");
+        submitButton.setPreferredSize(new Dimension(50, 30));
         submitButton.setBackground(Color.decode("#59282B"));  // Green (#008000)
         submitButton.setForeground(Color.decode("#FFFFFF"));  // White (#FFFFFF)
         submitButton.addActionListener(e -> finalizeOrder());
