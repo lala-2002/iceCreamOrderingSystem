@@ -12,6 +12,7 @@ public class OrderForm {
     private JLabel totalLabel;
     private ArrayList<OrderItem> orders;
     private double totalOrderPrice = 0.0;
+    private String backgroundImagePath;
 
     // Global variable to store the customer's name
     private String customerName = null;
@@ -22,7 +23,7 @@ public class OrderForm {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load and scale the background image
-                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg"); // Correct the path to the image
+                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\orderform\\icecream12.png"); // Correct the path to the image
                 Image img = backgroundImage.getImage();
                 Image scaledImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH); // Scale the image to fit the panel size
                 g.drawImage(scaledImg, 0, 0, this); // Draw the image on the panel
@@ -37,7 +38,9 @@ public class OrderForm {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the frame size to 400x450
-        frame.setSize(550, 400);
+        frame.setSize(500, 400);
+
+
 
         // Sample flavors and toppings
         Flavor[] flavors = {
@@ -46,7 +49,6 @@ public class OrderForm {
                 new Flavor("Strawberry", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\strawberry (2).jpg"),
                 new Flavor("Mint", 5.00, "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\mint (2).jpg")
         };
-
 
         Topping[] toppings = {
                 new Topping("Sprinkles", 1.00),
@@ -58,30 +60,25 @@ public class OrderForm {
         selectedToppings = new ArrayList<>();
         orders = new ArrayList<>();
 
-        // Custom panel for background
+        backgroundImagePath = "C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\orderform\\icecream12.png";
+
+
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load and draw the background image
-                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg"); // Correct the path
+                ImageIcon backgroundImage = new ImageIcon(backgroundImagePath);
                 Image img = backgroundImage.getImage();
-                Image scaledImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH); // Scale image to fit
-                g.drawImage(scaledImg, 0, 0, this); // Draw scaled image
+                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        backgroundPanel.setLayout(new BorderLayout()); // Set layout to BorderLayout
-        // Panels
-        JPanel inputPanel = createInputForm(flavors, toppings);
-        JPanel summaryPanel = createSummaryPanel();
-        JPanel actionPanel = createActionButtons();
-
         // Add components to the background panel
         backgroundPanel.setLayout(new BorderLayout());
-        backgroundPanel.add(inputPanel, BorderLayout.CENTER);
-        backgroundPanel.add(summaryPanel, BorderLayout.EAST);
-        backgroundPanel.add(actionPanel, BorderLayout.SOUTH);
+        backgroundPanel.add(createInputForm(flavors, toppings), BorderLayout.CENTER);
+        backgroundPanel.add(createSummaryPanel(), BorderLayout.EAST);
+        backgroundPanel.add(createActionButtons(), BorderLayout.SOUTH);
 
         frame.setContentPane(backgroundPanel);
         frame.pack();
@@ -89,21 +86,27 @@ public class OrderForm {
     }
 
     // Custom JPanel to display a background image
-    private class BackgroundPanel extends JPanel {
+    class BackgroundPanel extends JPanel {
         private Image backgroundImage;
 
-        public BackgroundPanel() {
-            // Load the background image
-            backgroundImage = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\image\\file.jpg").getImage();
+        public BackgroundPanel(String imagePath) {
+            try {
+                backgroundImage = new ImageIcon(imagePath).getImage();
+            } catch (Exception e) {
+                System.out.println("Error loading background image: " + e.getMessage());
+            }
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // Draw the background image, scaled to fit the panel
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            if (backgroundImage != null) {
+                // Draw the image to fill the panel
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
         }
     }
+
     // Method to set up the JComboBox with icons
     private void setupFlavorComboBox(JComboBox<Flavor> flavorBox) {
         flavorBox.setRenderer(new DefaultListCellRenderer() {
@@ -141,6 +144,7 @@ public class OrderForm {
     private JPanel createInputForm(Flavor[] flavors, Topping[] toppings) {
         // Create the main input panel with BoxLayout for vertical alignment
         JPanel inputPanel = new JPanel();
+        inputPanel.setOpaque(false);
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margins
 
@@ -229,6 +233,7 @@ public class OrderForm {
     private JPanel createSummaryPanel() {
         // Create a wrapper panel for layout
         JPanel wrapperPanel = new JPanel();
+        wrapperPanel.setOpaque(false);
         wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS));
         wrapperPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add spacing
 
@@ -264,11 +269,9 @@ public class OrderForm {
         return wrapperPanel;
     }
 
-
-
     private JPanel createActionButtons() {
         JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-
+        actionPanel.setOpaque(false);
         JButton addFlavorButton = new JButton("Add Flavor");
         addFlavorButton.setPreferredSize(new Dimension(50, 30)); // Set button size (width, height)
         addFlavorButton.setBackground(Color.decode("#59282B"));  // Cyan (#00FFFF)
@@ -290,9 +293,25 @@ public class OrderForm {
         submitButton.addActionListener(e -> finalizeOrder());
         actionPanel.add(submitButton);
 
+        // Home Page Button
+        JButton homeButton = new JButton("Home Page");
+        homeButton.setPreferredSize(new Dimension(50, 30));
+        homeButton.setBackground(Color.decode("#59282B")); // Example color
+        homeButton.setForeground(Color.decode("#FFFFFF"));
+        homeButton.addActionListener(e -> navigateToHomePage()); // Action for going back to the home page
+        actionPanel.add(homeButton);
+
         return actionPanel;
     }
 
+    private void navigateToHomePage() {
+        frame.dispose(); // Close the current OrderForm frame
+
+        // Open the HomePage (assumes you have a HomePage class defined)
+        SwingUtilities.invokeLater(() -> {
+            new HomePage(); // Replace with your home page initialization logic
+        });
+    }
 
     private void addFlavor() {
         try {
@@ -342,7 +361,6 @@ public class OrderForm {
             JOptionPane.showMessageDialog(frame, "An error occurred while adding the order.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void resetForm() {
         // Reset form inputs except the customer name
@@ -463,5 +481,4 @@ public class OrderForm {
             return String.format("%d x %s with %s = RM%.2f", quantity, flavor.getName(), toppingsText, total);
         }
     }
-
 }

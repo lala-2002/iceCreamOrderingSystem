@@ -39,7 +39,7 @@ public class AboutPage {
         JScrollPane scrollPane = new JScrollPane(detailsPane);
 
         // Add a GIF
-        ImageIcon gifIcon = new ImageIcon("gificecream.gif"); // Replace with your GIF file path
+        ImageIcon gifIcon = new ImageIcon("gificecream.gifC:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\aboutpage\\icecream-5x2-keyword.gif"); // Replace with your GIF file path
         JLabel gifLabel = new JLabel(gifIcon, JLabel.CENTER);
 
         // Back button with custom color
