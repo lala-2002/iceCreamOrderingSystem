@@ -1,0 +1,18 @@
+Customer Name: f
+Flavor: Strawberry
+Quantity: 5
+Toppings: Sprinkles 
+Total Price: RM30.00
+--------------------------------------------
+Customer Name: f
+Flavor: Chocolate
+Quantity: 4
+Toppings: Sprinkles 
+Total Price: RM24.00
+--------------------------------------------
+Customer Name: d
+Flavor: Strawberry
+Quantity: 2
+Toppings: Sprinkles 
+Total Price: RM12.00
+--------------------------------------------

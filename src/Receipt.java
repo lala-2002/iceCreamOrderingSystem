@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Receipt {
     JFrame frame;
@@ -37,7 +40,6 @@ public class Receipt {
         headerPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         headerPanel.add(thankYouLabel);
         headerPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
-
 
         // Main Details Panel
         JPanel detailsPanel = new JPanel();
@@ -121,6 +123,9 @@ public class Receipt {
         totalPriceValueLabel.setFont(new Font("Arial", Font.BOLD, 14));
         detailsPanel.add(totalPriceValueLabel, gbc);
 
+        // Save Receipt to File
+        saveReceiptToFile(name, flavor, quantity, toppings.toString(), totalPrice);
+
         // Footer Panel
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -137,4 +142,22 @@ public class Receipt {
         frame.setVisible(true);
     }
 
+    private void saveReceiptToFile(String name, String flavor, int quantity, String toppings, double totalPrice) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("receipts.txt", true))) {
+            writer.write("Customer Name: " + name);
+            writer.newLine();
+            writer.write("Flavor: " + flavor);
+            writer.newLine();
+            writer.write("Quantity: " + quantity);
+            writer.newLine();
+            writer.write("Toppings: " + toppings);
+            writer.newLine();
+            writer.write("Total Price: RM" + String.format("%.2f", totalPrice));
+            writer.newLine();
+            writer.write("--------------------------------------------");
+            writer.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame, "Error saving receipt to file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
