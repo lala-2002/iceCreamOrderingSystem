@@ -94,3 +94,27 @@ Quantity: 1
 Toppings: None
 Total Price: RM5.00
 --------------------------------------------
+Customer Name: aa
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles
+Total Price: RM0.00
+--------------------------------------------
+Customer Name: aa
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: aqa
+Flavor: Vanilla
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: Lala
+Flavor: Vanilla
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
