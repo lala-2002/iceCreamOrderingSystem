@@ -118,3 +118,9 @@ Quantity: 1
 Toppings: Sprinkles 
 Total Price: RM6.00
 --------------------------------------------
+Customer Name: kak
+Flavor: Vanilla
+Quantity: 1
+Toppings: None
+Total Price: RM5.00
+--------------------------------------------
