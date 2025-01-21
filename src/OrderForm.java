@@ -52,9 +52,7 @@ public class OrderForm {
 
         Topping[] toppings = {
                 new Topping("Sprinkles", 1.00),
-                new Topping("Chocolate Sauce", 1.50),
-                new Topping("Walnut", 2.00),
-                new Topping("Marshmallow", 1.75)
+                new Topping("Chocolate Sauce", 1.50)
         };
 
         selectedToppings = new ArrayList<>();
@@ -201,10 +199,13 @@ public class OrderForm {
         // Toppings Section
         JLabel toppingLabel = new JLabel("Toppings:");
         toppingLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the label
-        toppingPanel = new JPanel(new GridLayout(0, 1)); // One column layout
+
+        toppingPanel = new JPanel();
+        toppingPanel.setLayout(new BoxLayout(toppingPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical alignment
         toppingPanel.setBackground(Color.decode("#FFFFFF")); // Set white background
+
         JScrollPane scrollPane = new JScrollPane(toppingPanel);
-        scrollPane.setPreferredSize(new Dimension(250, 100)); // Adjust scrollable height
+        scrollPane.setPreferredSize(new Dimension(250, 100)); // Adjust scroll pane size as needed
         scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align the scroll pane
 
         // Populate topping checkboxes
@@ -212,6 +213,8 @@ public class OrderForm {
             JCheckBox toppingCheckBox = new JCheckBox(topping.getName() + " (RM" + topping.getPrice() + ")");
             toppingCheckBox.setBackground(Color.decode("#FFFFFF")); // White background for checkboxes
             toppingCheckBox.setForeground(Color.decode("#000000")); // Black text for checkboxes
+            toppingCheckBox.setPreferredSize(new Dimension(250, 30)); // Set checkbox height to 30
+            toppingCheckBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // Allow it to resize horizontally but keep height fixed
             toppingCheckBox.addActionListener(e -> {
                 if (toppingCheckBox.isSelected()) {
                     selectedToppings.add(topping);
@@ -220,12 +223,14 @@ public class OrderForm {
                 }
             });
             toppingPanel.add(toppingCheckBox);
+            toppingPanel.add(Box.createVerticalStrut(5)); // Add spacing between checkboxes
         }
 
-        // Add Topping Components (Label + ScrollPane)
+// Add Topping Components (Label + ScrollPane)
         inputPanel.add(toppingLabel);
         inputPanel.add(Box.createVerticalStrut(LABEL_TO_FIELD_GAP)); // Space between label and scroll pane (5px)
         inputPanel.add(scrollPane);
+
 
         return inputPanel;
     }

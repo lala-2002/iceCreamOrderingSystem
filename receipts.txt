@@ -16,3 +16,81 @@ Quantity: 2
 Toppings: Sprinkles 
 Total Price: RM12.00
 --------------------------------------------
+Customer Name: Arifah
+Flavor: Strawberry
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: Nawal
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: nana
+Flavor: Vanilla
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: Ed
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: Fiffy
+Flavor: Strawberry
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: lala
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: Zulaikha
+Flavor: Vanilla
+Quantity: 1
+Toppings: Sprinkles
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: q
+Flavor: Vanilla
+Quantity: 1
+Toppings: None
+Total Price: RM5.00
+--------------------------------------------
+Customer Name: jwsm
+Flavor: Chocolate
+Quantity: 1
+Toppings: Sprinkles 
+Total Price: RM6.00
+--------------------------------------------
+Customer Name: fdddddddds
+Flavor: Vanilla
+Quantity: 2
+Toppings: None
+Total Price: RM10.00
+--------------------------------------------
+Customer Name: Nana
+Flavor: Vanilla
+Quantity: 1
+Toppings: None
+Total Price: RM5.00
+--------------------------------------------
+Customer Name: La
+Flavor: Vanilla
+Quantity: 1
+Toppings: None
+Total Price: RM0.00
+--------------------------------------------
+Customer Name: La
+Flavor: Vanilla
+Quantity: 1
+Toppings: None
+Total Price: RM5.00
+--------------------------------------------
