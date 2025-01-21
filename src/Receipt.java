@@ -6,13 +6,22 @@ public class Receipt {
 
     Receipt(String name, String flavor, int quantity, boolean sprinkles, boolean chocolate) {
         frame = new JFrame("Receipt");
-        frame.setSize(500, 350);
+        frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         // Header Panel
         JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        JLabel headerInfoLabel = new JLabel("Receipt Information", JLabel.CENTER);
+        headerInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        headerInfoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        headerPanel.add(headerInfoLabel);
+
+        ImageIcon originalIcon = new ImageIcon("C:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\receipt\\ice cream receipt.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
+        JLabel logoLabel = new JLabel(new ImageIcon(scaledImage));
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        headerPanel.add(logoLabel);
         headerPanel.setBackground(Color.WHITE);
 
         JLabel titleLabel = new JLabel("Ice Cream Paradise", JLabel.CENTER);
@@ -38,7 +47,7 @@ public class Receipt {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5); // Spacing between rows/columns
+        gbc.insets = new Insets(5, 10, 5, 10); // Spacing of 10 pixels between columns
 
         // Column Header
         gbc.gridx = 0;
@@ -87,17 +96,30 @@ public class Receipt {
         gbc.gridx = 3;
         detailsPanel.add(new JLabel(String.format("RM%.2f", totalPricePerIceCream)), gbc);
 
-        // Total Price Row
-        gbc.gridy++;
-        gbc.gridx = 0; // Align "Total Price" with "Flavor"
-        gbc.gridwidth = 3; // Span across multiple columns for spacing
-        detailsPanel.add(new JLabel("  Total Price:"), gbc); // Add spacing before text
+        gbc.gridy++; // Move to the next row
 
-        gbc.gridx = 3; // Align the total price value with the "Price" column
-        gbc.gridwidth = 1; // Reset column span
-        JLabel totalPriceLabel = new JLabel(String.format("RM%.2f", totalPrice));
+// Add styled line border above "Total Price"
+        gbc.gridx = 0;
+        gbc.gridwidth = 4; // Span across all columns
+        JLabel line = new JLabel();
+        line.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)); // Top border only
+        detailsPanel.add(line, gbc);
+
+// Add "Total Price" label aligned with "Flavor" with inset of 2
+        gbc.gridy++; // Move to the next row
+        gbc.gridx = 0; // Align with the first column ("Flavor")
+        gbc.gridwidth = 1; // Do not span multiple columns
+        gbc.insets = new Insets(1, 10, 5, 10); // Top: 2, Left: 10, Bottom: 5, Right: 10
+        JLabel totalPriceLabel = new JLabel("Total Price:");
         totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         detailsPanel.add(totalPriceLabel, gbc);
+
+// Add "Total Price" value aligned with "Price"
+        gbc.gridx = 3; // Align with the "Price" column
+        gbc.gridwidth = 1; // Reset column span
+        JLabel totalPriceValueLabel = new JLabel(String.format("RM%.2f", totalPrice));
+        totalPriceValueLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        detailsPanel.add(totalPriceValueLabel, gbc);
 
         // Footer Panel
         JPanel footerPanel = new JPanel();
