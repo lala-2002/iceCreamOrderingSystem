@@ -15,14 +15,9 @@ public class AboutPage {
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBackground(Color.decode("#8C4646")); // Copper rust background
 
-        // Image on top
-        ImageIcon icon = new ImageIcon("icecream.png"); // Replace with your image path
-        JLabel imageLabel = new JLabel(icon, JLabel.CENTER);
-        headerPanel.add(imageLabel, BorderLayout.CENTER);
-
         JLabel titleLabel = new JLabel("Welcome to the Ice Cream Paradise!", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setForeground(Color.decode("#FFFFFF")); // White color for the title
+        titleLabel.setForeground(Color.decode("#000000")); // White color for the title
         headerPanel.add(titleLabel, BorderLayout.SOUTH);
 
         JTextPane detailsPane = new JTextPane();
@@ -37,10 +32,6 @@ public class AboutPage {
         detailsPane.setEditable(false);
         detailsPane.setBackground(Color.decode("#F2E7DD")); // Light beige background
         JScrollPane scrollPane = new JScrollPane(detailsPane);
-
-        // Add a GIF
-        ImageIcon gifIcon = new ImageIcon("gificecream.gifC:\\Users\\arifah zulaikha\\IdeaProjects\\iceCreamOrderingSystem\\res\\aboutpage\\icecream-5x2-keyword.gif"); // Replace with your GIF file path
-        JLabel gifLabel = new JLabel(gifIcon, JLabel.CENTER);
 
         // Back button with custom color
         JButton backButton = new JButton("Back to Home");
